@@ -1,22 +1,29 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
+
 function App() {
+  const [quote, setQuote] = useState('');
+
+  useEffect(() => {
+    const fetchKanyeQuote = async () => {
+      try {
+        const response = await fetch('https://api.kanye.rest/');
+        const data = await response.json();
+        setQuote(data.quote);
+      } catch (error) {
+        console.error('Error fetching Kanye quote:', error);
+      }
+    };
+
+    fetchKanyeQuote();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Kanye West Quote Generator</h1>
+        {quote && <p>{quote}</p>}
       </header>
     </div>
   );
